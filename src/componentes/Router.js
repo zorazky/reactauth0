@@ -4,6 +4,7 @@ import Header from './Header';
 import Productos from './Productos';
 import Nosotros from './Nosotros';
 import Error from './Error';
+import SingleProducto from './SingleProducto'
 import infoProductos from '../datos/datos.json';
 
 class Router extends Component {
@@ -30,6 +31,14 @@ class Router extends Component {
                             />
 
                         )} />
+                        <Route exact path="/producto/:productoId" render={(props) => {
+                            let idProducto = props.location.pathname.replace('/producto/','');
+                            return (
+                                <SingleProducto 
+                                    producto={this.state.productos[idProducto]}
+                                />
+                            )
+                        }} />
                         <Route exact path="/nosotros" component={Nosotros} /> 
                         
                         <Router component={Error} />
