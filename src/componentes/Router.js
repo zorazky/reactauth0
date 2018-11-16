@@ -12,7 +12,8 @@ import infoProductos from '../datos/datos.json';
 class Router extends Component {
 
     state = {
-        productos: []
+        productos: [],
+        terminoBusqueda: ''
     }
     componentWillMount() {
         this.setState({
@@ -20,7 +21,29 @@ class Router extends Component {
         })
     }
 
+    busquedaProducto = (busqueda) => {
+        if(busqueda.length > 3) {
+            this.setState({
+                terminoBusqueda: busqueda
+            })
+        } else {
+            this.setState({
+                terminoBusqueda: ''
+            })
+        }
+    }
+
     render() {
+        let productos = [...this.state.productos];
+        let busqueda = this.state.terminoBusqueda;
+        let resultado
+        if(busqueda !== '') {
+            resultado = productos.filter(producto => (
+                producto.nombre.toLowerCase().indexOf( busqueda.toLowerCase() ) != -1
+            ))
+        } else {
+            resultado = productos;
+        }
         return (
             <BrowserRouter>
                 <div className="contenedor">
@@ -30,7 +53,8 @@ class Router extends Component {
                         <Route exact path="/" render={() => (
 
                             <Productos 
-                                productos={this.state.productos}
+                                productos={resultado}
+                                busquedaProducto={this.busquedaProducto}
                             />
 
                         )} />
@@ -45,7 +69,8 @@ class Router extends Component {
                         <Route exact path="/nosotros" component={Nosotros} /> 
                         <Route exact path="/productos" render={(props) => (
                             <Productos 
-                                productos={this.state.productos}
+                                productos={resultado}
+                                busquedaProducto={this.busquedaProducto}
                             />
                         )} /> 
                         <Route exact path="/contacto" component={Contacto} />
