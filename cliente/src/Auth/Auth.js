@@ -34,7 +34,7 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
-        history.replace('/home');
+        history.replace('/productos');
         console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
@@ -46,7 +46,14 @@ export default class Auth {
   }
 
   getIdToken() {
-    return this.idToken;
+    const accessToken = localStorage.getItem('access_token');
+
+    if(!accessToken) {
+      return new Error('Hubo un error al general el token');
+    }
+
+    return accessToken;
+    //return this.idToken;
   }
 
   setSession(authResult) {
@@ -60,7 +67,7 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/productos');
   }
 
   renewSession() {
@@ -85,7 +92,7 @@ export default class Auth {
     localStorage.removeItem('isLoggedIn');
 
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/productos');
   }
 
   isAuthenticated() {
