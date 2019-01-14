@@ -28,7 +28,7 @@ export const makeMainRoutes = () => {
       <Router history={history}>
         <div className="contenedor">
         <Header />
-        <Navegacion />
+        <Navegacion auth={auth} />
 
           
           <Route exact path="/" render={(props) => (
